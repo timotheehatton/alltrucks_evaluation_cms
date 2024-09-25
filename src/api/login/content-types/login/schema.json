@@ -1,0 +1,36 @@
+{
+  "kind": "singleType",
+  "collectionName": "logins",
+  "info": {
+    "singularName": "login",
+    "pluralName": "logins",
+    "displayName": "Global - Login page",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "page_title": {
+      "type": "string",
+      "required": true
+    },
+    "card_title": {
+      "type": "string",
+      "required": true
+    },
+    "input_mail": {
+      "type": "string",
+      "required": true
+    },
+    "input_password": {
+      "type": "string",
+      "required": true
+    },
+    "validate_btn": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

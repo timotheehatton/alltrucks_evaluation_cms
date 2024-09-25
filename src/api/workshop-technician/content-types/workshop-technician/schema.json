@@ -1,14 +1,14 @@
 {
   "kind": "singleType",
-  "collectionName": "user_statistics",
+  "collectionName": "workshop_technicians",
   "info": {
-    "singularName": "user-statistic",
-    "pluralName": "user-statistics",
-    "displayName": "Technician - Statistic page",
+    "singularName": "workshop-technician",
+    "pluralName": "workshop-technicians",
+    "displayName": "Manager - technicians page",
     "description": ""
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {
     "i18n": {
@@ -18,57 +18,65 @@
   "attributes": {
     "page_title": {
       "type": "string",
+      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      },
-      "required": true
+      }
     },
-    "diploma_title": {
-      "type": "text",
+    "table_name": {
+      "type": "string",
+      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      },
-      "required": true
+      }
     },
-    "diploma_button": {
+    "table_evaluation": {
       "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      },
-      "required": true
+      }
     },
-    "training_title": {
+    "table_score": {
       "type": "string",
+      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      },
-      "required": true
+      }
     },
-    "training_recommendation": {
+    "table_date": {
       "type": "string",
+      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      },
-      "required": true
+      }
     },
-    "placeholder_button": {
+    "table_status_completed": {
+      "type": "string",
+      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      },
+      }
+    },
+    "table_status_notcompleted": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }

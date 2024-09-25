@@ -793,7 +793,7 @@ export interface ApiAccountAccount extends Schema.SingleType {
   info: {
     singularName: 'account';
     pluralName: 'accounts';
-    displayName: 'account';
+    displayName: 'Global - Account page';
     description: '';
   };
   options: {
@@ -982,12 +982,46 @@ export interface ApiAccountAccount extends Schema.SingleType {
   };
 }
 
+export interface ApiActivateAccountActivateAccount extends Schema.SingleType {
+  collectionName: 'activate_accounts';
+  info: {
+    singularName: 'activate-account';
+    pluralName: 'activate-accounts';
+    displayName: 'Global - Account activation page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    page_title: Attribute.String & Attribute.Required;
+    intro: Attribute.String & Attribute.Required;
+    input_password: Attribute.String & Attribute.Required;
+    input_password_confirmation: Attribute.String & Attribute.Required;
+    button: Attribute.String & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::activate-account.activate-account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::activate-account.activate-account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCategoryCategory extends Schema.SingleType {
   collectionName: 'categories';
   info: {
     singularName: 'category';
     pluralName: 'categories';
-    displayName: 'category';
+    displayName: 'Global - Category';
     description: '';
   };
   options: {
@@ -1078,12 +1112,78 @@ export interface ApiCategoryCategory extends Schema.SingleType {
   };
 }
 
+export interface ApiEmailEmail extends Schema.SingleType {
+  collectionName: 'emails';
+  info: {
+    singularName: 'email';
+    pluralName: 'emails';
+    displayName: 'Global - Email template';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    content: Attribute.String & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::email.email',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::email.email',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiLoginLogin extends Schema.SingleType {
+  collectionName: 'logins';
+  info: {
+    singularName: 'login';
+    pluralName: 'logins';
+    displayName: 'Global - Login page';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    page_title: Attribute.String & Attribute.Required;
+    card_title: Attribute.String & Attribute.Required;
+    input_mail: Attribute.String & Attribute.Required;
+    input_password: Attribute.String & Attribute.Required;
+    validate_btn: Attribute.String & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::login.login',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::login.login',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiMenuMenu extends Schema.SingleType {
   collectionName: 'menus';
   info: {
     singularName: 'menu';
     pluralName: 'menus';
-    displayName: 'menu';
+    displayName: 'Global - Menu';
     description: '';
   };
   options: {
@@ -1283,7 +1383,7 @@ export interface ApiTestTest extends Schema.SingleType {
   info: {
     singularName: 'test';
     pluralName: 'tests';
-    displayName: 'evaluation';
+    displayName: 'Technician - Evaluation page';
     description: '';
   };
   options: {
@@ -1499,7 +1599,7 @@ export interface ApiUserStatisticUserStatistic extends Schema.SingleType {
   info: {
     singularName: 'user-statistic';
     pluralName: 'user-statistics';
-    displayName: 'user statistic';
+    displayName: 'Technician - Statistic page';
     description: '';
   };
   options: {
@@ -1576,6 +1676,96 @@ export interface ApiUserStatisticUserStatistic extends Schema.SingleType {
   };
 }
 
+export interface ApiWorkshopTechnicianWorkshopTechnician
+  extends Schema.SingleType {
+  collectionName: 'workshop_technicians';
+  info: {
+    singularName: 'workshop-technician';
+    pluralName: 'workshop-technicians';
+    displayName: 'Manager - technicians page';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    page_title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    table_name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    table_evaluation: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    table_score: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    table_date: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    table_status_completed: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    table_status_notcompleted: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::workshop-technician.workshop-technician',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::workshop-technician.workshop-technician',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::workshop-technician.workshop-technician',
+      'oneToMany',
+      'api::workshop-technician.workshop-technician'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1595,12 +1785,16 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::account.account': ApiAccountAccount;
+      'api::activate-account.activate-account': ApiActivateAccountActivateAccount;
       'api::category.category': ApiCategoryCategory;
+      'api::email.email': ApiEmailEmail;
+      'api::login.login': ApiLoginLogin;
       'api::menu.menu': ApiMenuMenu;
       'api::question.question': ApiQuestionQuestion;
       'api::test.test': ApiTestTest;
       'api::training.training': ApiTrainingTraining;
       'api::user-statistic.user-statistic': ApiUserStatisticUserStatistic;
+      'api::workshop-technician.workshop-technician': ApiWorkshopTechnicianWorkshopTechnician;
     }
   }
 }

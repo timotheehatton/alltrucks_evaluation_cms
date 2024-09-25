@@ -1,0 +1,35 @@
+{
+  "kind": "singleType",
+  "collectionName": "activate_accounts",
+  "info": {
+    "singularName": "activate-account",
+    "pluralName": "activate-accounts",
+    "displayName": "Global - Account activation page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "page_title": {
+      "type": "string",
+      "required": true
+    },
+    "intro": {
+      "type": "string",
+      "required": true
+    },
+    "input_password": {
+      "type": "string",
+      "required": true
+    },
+    "input_password_confirmation": {
+      "type": "string",
+      "required": true
+    },
+    "button": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
