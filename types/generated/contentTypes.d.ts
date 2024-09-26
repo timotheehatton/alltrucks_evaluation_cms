@@ -991,17 +991,51 @@ export interface ApiActivateAccountActivateAccount extends Schema.SingleType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
   };
   attributes: {
-    page_title: Attribute.String & Attribute.Required;
-    intro: Attribute.Text & Attribute.Required;
-    input_password: Attribute.String & Attribute.Required;
-    input_password_confirmation: Attribute.String & Attribute.Required;
-    button: Attribute.String & Attribute.Required;
+    page_title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    intro: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    input_password: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    input_password_confirmation: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    button: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::activate-account.activate-account',
       'oneToOne',
@@ -1014,6 +1048,12 @@ export interface ApiActivateAccountActivateAccount extends Schema.SingleType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::activate-account.activate-account',
+      'oneToMany',
+      'api::activate-account.activate-account'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -1122,14 +1162,30 @@ export interface ApiEmailEmail extends Schema.SingleType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
   };
   attributes: {
-    title: Attribute.String & Attribute.Required;
-    content: Attribute.Text & Attribute.Required;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    content: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::email.email',
       'oneToOne',
@@ -1142,6 +1198,12 @@ export interface ApiEmailEmail extends Schema.SingleType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::email.email',
+      'oneToMany',
+      'api::email.email'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -1154,17 +1216,51 @@ export interface ApiLoginLogin extends Schema.SingleType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
   };
   attributes: {
-    page_title: Attribute.String & Attribute.Required;
-    card_title: Attribute.String & Attribute.Required;
-    input_mail: Attribute.String & Attribute.Required;
-    input_password: Attribute.String & Attribute.Required;
-    validate_btn: Attribute.String & Attribute.Required;
+    page_title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    card_title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    input_mail: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    input_password: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    validate_btn: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::login.login',
       'oneToOne',
@@ -1177,6 +1273,12 @@ export interface ApiLoginLogin extends Schema.SingleType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::login.login',
+      'oneToMany',
+      'api::login.login'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -1688,7 +1790,7 @@ export interface ApiWorkshopTechnicianWorkshopTechnician
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
@@ -1746,7 +1848,6 @@ export interface ApiWorkshopTechnicianWorkshopTechnician
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::workshop-technician.workshop-technician',
       'oneToOne',
