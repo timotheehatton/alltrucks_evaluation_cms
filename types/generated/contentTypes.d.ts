@@ -988,13 +988,14 @@ export interface ApiActivateAccountActivateAccount extends Schema.SingleType {
     singularName: 'activate-account';
     pluralName: 'activate-accounts';
     displayName: 'Global - Account activation page';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     page_title: Attribute.String & Attribute.Required;
-    intro: Attribute.String & Attribute.Required;
+    intro: Attribute.Text & Attribute.Required;
     input_password: Attribute.String & Attribute.Required;
     input_password_confirmation: Attribute.String & Attribute.Required;
     button: Attribute.String & Attribute.Required;
@@ -1118,13 +1119,14 @@ export interface ApiEmailEmail extends Schema.SingleType {
     singularName: 'email';
     pluralName: 'emails';
     displayName: 'Global - Email template';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     title: Attribute.String & Attribute.Required;
-    content: Attribute.String & Attribute.Required;
+    content: Attribute.Text & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

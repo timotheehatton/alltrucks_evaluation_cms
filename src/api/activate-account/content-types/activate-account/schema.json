@@ -4,7 +4,8 @@
   "info": {
     "singularName": "activate-account",
     "pluralName": "activate-accounts",
-    "displayName": "Global - Account activation page"
+    "displayName": "Global - Account activation page",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,7 +17,7 @@
       "required": true
     },
     "intro": {
-      "type": "string",
+      "type": "text",
       "required": true
     },
     "input_password": {
