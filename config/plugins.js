@@ -1,8 +1,14 @@
 module.exports = ({ env }) => ({
     email: {
-        settings: {
-            defaultFrom: 'info@alltrucks.com',
-            defaultReplyTo: 'info@alltrucks.com',
+        config: {
+            provider: 'sendgrid',
+            providerOptions: {
+                apiKey: env('SENDGRID_API_KEY'),
+            },
+            settings: {
+                defaultFrom: 'support@alltrucks-fleet-platform.com',
+                defaultReplyTo: 'support@alltrucks-fleet-platform.com',
+            },
         },
     },
 });
