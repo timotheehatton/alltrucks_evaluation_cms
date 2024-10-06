@@ -6,8 +6,8 @@ module.exports = ({ env }) => ({
                 apiKey: env('SENDGRID_API_KEY'),
             },
             settings: {
-                defaultFrom: 'support@alltrucks-fleet-platform.com',
-                defaultReplyTo: 'support@alltrucks-fleet-platform.com',
+                defaultFrom: env('SENDGRID_DEFAULT_FROM'),
+                defaultReplyTo: env('SENDGRID_DEFAULT_TO'),
             },
         },
     },
