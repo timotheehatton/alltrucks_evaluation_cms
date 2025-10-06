@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "global_pdfs",
+  "info": {
+    "singularName": "global-pdf",
+    "pluralName": "global-pdfs",
+    "displayName": "Global - PDF"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "diploma_content": {
+      "type": "text"
+    }
+  }
+}

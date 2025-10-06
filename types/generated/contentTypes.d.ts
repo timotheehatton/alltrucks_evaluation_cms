@@ -959,6 +959,18 @@ export interface ApiAccountAccount extends Schema.SingleType {
           localized: true;
         };
       }>;
+    change_password_success: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    change_password_error: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1029,6 +1041,30 @@ export interface ApiActivateAccountActivateAccount extends Schema.SingleType {
       }>;
     button: Attribute.String &
       Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    resetpassword_title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    resetpassword_subtitle: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    resetpassword_input_email: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    resetpassword_button: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1207,6 +1243,36 @@ export interface ApiEmailEmail extends Schema.SingleType {
   };
 }
 
+export interface ApiGlobalPdfGlobalPdf extends Schema.SingleType {
+  collectionName: 'global_pdfs';
+  info: {
+    singularName: 'global-pdf';
+    pluralName: 'global-pdfs';
+    displayName: 'Global - PDF';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    diploma_content: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::global-pdf.global-pdf',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::global-pdf.global-pdf',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiLoginLogin extends Schema.SingleType {
   collectionName: 'logins';
   info: {
@@ -1296,6 +1362,36 @@ export interface ApiLoginLogin extends Schema.SingleType {
         };
       }>;
     lostpassword_email_error_email_invalid: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    login_error: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    lostpassword_title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    lostpassword_subtitle: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    lostpassword_email: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    lostpassword_button: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1799,6 +1895,12 @@ export interface ApiUserStatisticUserStatistic extends Schema.SingleType {
           localized: true;
         };
       }>;
+    manager_no_data_placeholder: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1933,6 +2035,7 @@ declare module '@strapi/types' {
       'api::activate-account.activate-account': ApiActivateAccountActivateAccount;
       'api::category.category': ApiCategoryCategory;
       'api::email.email': ApiEmailEmail;
+      'api::global-pdf.global-pdf': ApiGlobalPdfGlobalPdf;
       'api::login.login': ApiLoginLogin;
       'api::menu.menu': ApiMenuMenu;
       'api::question.question': ApiQuestionQuestion;
