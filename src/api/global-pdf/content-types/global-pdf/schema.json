@@ -4,15 +4,25 @@
   "info": {
     "singularName": "global-pdf",
     "pluralName": "global-pdfs",
-    "displayName": "Global - PDF"
+    "displayName": "Global - PDF",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
-  "pluginOptions": {},
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
   "attributes": {
     "diploma_content": {
-      "type": "text"
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }

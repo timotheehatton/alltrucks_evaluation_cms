@@ -1249,15 +1249,25 @@ export interface ApiGlobalPdfGlobalPdf extends Schema.SingleType {
     singularName: 'global-pdf';
     pluralName: 'global-pdfs';
     displayName: 'Global - PDF';
+    description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
   };
   attributes: {
-    diploma_content: Attribute.Text;
+    diploma_content: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::global-pdf.global-pdf',
       'oneToOne',
@@ -1270,6 +1280,12 @@ export interface ApiGlobalPdfGlobalPdf extends Schema.SingleType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::global-pdf.global-pdf',
+      'oneToMany',
+      'api::global-pdf.global-pdf'
+    >;
+    locale: Attribute.String;
   };
 }
 
