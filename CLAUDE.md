@@ -6,6 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Strapi CMS application for managing truck technician training and evaluation content. The application provides a headless CMS backend that serves content for a technician assessment platform.
 
+## Requirements
+
+- Node.js: >=18.0.0 <=20.x.x
+- npm: >=6.0.0
+
 ## Commands
 
 ### Development
@@ -47,9 +52,13 @@ The application is organized around several main content types in `src/api/`:
 
 8. **Menu** (`menu`) - SingleType for navigation configuration
 
-9. **Account/Login/Lost-Password/Activate-Account** - Authentication and account management endpoints
+9. **Account** (`account`) - SingleType for account page UI content (user profile, workshop info, password change)
 
-10. **PDF** - PDF generation endpoints
+10. **Login** (`login`) - SingleType for login page and password reset UI content
+
+11. **Activate Account** (`activate-account`) - SingleType for account activation and password reset page UI
+
+12. **Global PDF** (`global-pdf`) - SingleType for PDF template content (diploma generation)
 
 ### Project Structure
 
