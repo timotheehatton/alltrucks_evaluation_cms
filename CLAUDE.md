@@ -4,103 +4,68 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Strapi CMS application for managing truck technician training and evaluation content. The application provides a headless CMS backend that serves content for a technician assessment platform.
+Strapi v5.29.0 headless CMS backend for a truck technician training and evaluation platform. Serves content (trainings, questions, UI text) to a frontend assessment app.
 
 ## Requirements
 
-- Node.js: >=18.0.0 <=20.x.x
+- Node.js: >=18.0.0 <=22.x.x
 - npm: >=6.0.0
 
 ## Commands
 
-### Development
-- `npm run develop` - Start Strapi with autoReload enabled for development
-- `npm run start` - Start Strapi in production mode (autoReload disabled)
+- `npm run develop` - Start Strapi with autoReload (development)
+- `npm run start` - Start Strapi without autoReload (production)
 - `npm run build` - Build the admin panel
 - `npm run deploy` - Deploy to Strapi Cloud
-
-### Strapi CLI
 - `npm run strapi` - Run Strapi CLI commands directly
 
 ## Architecture
 
-### Content Types
+### Content Types (`src/api/`)
 
-The application is organized around several main content types in `src/api/`:
+**CollectionTypes** (repeatable content):
+- **training** - Training modules with title, description, category, number, max score
+- **question** - Multiple choice questions (up to 5 choices) with optional image; note: correct answer field is `anwser` (typo preserved in schema)
+- **category** - Content categorization
+- **user-statistic** - User performance tracking
+- **workshop-technician** - Technician profiles
 
-1. **Training** (`training`) - CollectionType representing training modules
-   - Categories: general_mechanic, powertrain, electricity, diagnostic, engine_exhaust, engine_injection, truck_air_braking_system, trailer_braking_system
-   - Includes training title, description, category, number, and maximum score
+**SingleTypes** (one-off UI/config content):
+- **test** - Evaluation page UI (success/timeout popups)
+- **account** - Account page UI (profile, workshop, password sections)
+- **login** - Login page and password reset UI
+- **activate-account** - Account activation and password reset page
+- **menu** - Navigation configuration
+- **email** - Email template content
+- **global-pdf** - PDF/diploma template content
 
-2. **Question** (`question`) - CollectionType representing evaluation questions
-   - Supports up to 5 multiple choice options
-   - Includes optional image attachments
-   - Categorized by the same training categories
-   - Stores correct answer as enumeration
+**Shared category enum** (used by both `training` and `question`):
+`general_mechanic`, `powertrain`, `electricity`, `diagnostic`, `engine_exhaust`, `engine_injection`, `truck_air_braking_system`, `trailer_braking_system`
 
-3. **Test** (`test`) - SingleType representing the evaluation page UI content
-   - Localized content for test interface
-   - Success and timeout popups configuration
+### Key Patterns
 
-4. **User Statistic** (`user-statistic`) - CollectionType for tracking user performance
+- **All content types use default Strapi factory pattern** — no custom controllers, services, or routes. Every content type uses `createCoreController`, `createCoreService`, `createCoreRouter` with no overrides.
+- **i18n enabled** on all content types via `pluginOptions.i18n.localized: true`
+- **Draft & Publish disabled** on all content types (`draftAndPublish: false`)
+- **No relations** between content types in schemas
+- **No active admin customizations** — `src/admin/` only has example files
+- **No active extensions** — `src/extensions/` is empty
 
-5. **Workshop Technician** (`workshop-technician`) - CollectionType for technician profiles
+### Configuration (`config/`)
 
-6. **Category** (`category`) - CollectionType for organizing content
-
-7. **Email** (`email`) - SingleType for email template content
-
-8. **Menu** (`menu`) - SingleType for navigation configuration
-
-9. **Account** (`account`) - SingleType for account page UI content (user profile, workshop info, password change)
-
-10. **Login** (`login`) - SingleType for login page and password reset UI content
-
-11. **Activate Account** (`activate-account`) - SingleType for account activation and password reset page UI
-
-12. **Global PDF** (`global-pdf`) - SingleType for PDF template content (diploma generation)
-
-### Project Structure
-
-```
-src/
-├── api/                    # Content types, controllers, services, and routes
-│   ├── [content-type]/
-│   │   ├── content-types/  # Schema definitions (JSON)
-│   │   ├── controllers/    # Request handlers
-│   │   ├── routes/         # API route definitions
-│   │   └── services/       # Business logic
-├── admin/                  # Admin panel customizations
-├── extensions/             # Plugin extensions
-└── index.js                # Application entry point
-
-config/
-├── admin.js                # Admin panel configuration
-├── api.js                  # API configuration
-├── database.js             # Database configuration
-├── middlewares.js          # Middleware configuration
-├── plugins.js              # Plugin configuration (SendGrid email)
-└── server.js               # Server configuration
-```
-
-### Key Features
-
-- **i18n Support**: All content types use the i18n plugin with localized content
-- **Email Integration**: SendGrid email provider configured in `config/plugins.js`
-- **Import/Export**: `strapi-plugin-import-export-entries` plugin for bulk content management
-- **Database**: Uses better-sqlite3 for development
+- **database.js** - Supports SQLite (default), MySQL, PostgreSQL via env vars
+- **plugins.js** - SendGrid email provider (`@strapi/provider-email-sendgrid`)
+- **api.js** - REST defaults: limit 25, max 500, withCount enabled
+- **middlewares.js** - Standard Strapi middleware stack
 
 ### Environment Variables
 
-Required variables (see `.env.example`):
-- `HOST`, `PORT` - Server configuration
+Required (see `.env.example`):
+- `HOST`, `PORT` - Server config
 - `APP_KEYS`, `API_TOKEN_SALT`, `ADMIN_JWT_SECRET`, `TRANSFER_TOKEN_SALT`, `JWT_SECRET` - Security tokens
-- `SENDGRID_API_KEY`, `SENDGRID_DEFAULT_FROM`, `SENDGRID_DEFAULT_TO` - Email configuration
+- `SENDGRID_API_KEY`, `SENDGRID_DEFAULT_FROM`, `SENDGRID_DEFAULT_TO` - Email config
 
-### Content Type Conventions
+### Code Style
 
-- Most content types follow Strapi factory pattern: `createCoreController`, `createCoreService`, `createCoreRouter`
-- Schema files define the data model with pluginOptions for i18n localization
-- Controllers, services, and routes are organized in separate directories per content type
-- SingleTypes (like `test`, `email`, `menu`) represent one-off configuration content
-- CollectionTypes (like `training`, `question`) represent repeatable content
+- ESLint configured: 2-space indent, single quotes, semicolons required, unix line endings
+- JavaScript project (no TypeScript source; `types/generated/` contains auto-generated Strapi type definitions)

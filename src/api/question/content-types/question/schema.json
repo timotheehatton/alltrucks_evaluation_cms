@@ -59,21 +59,36 @@
         }
       }
     },
+    "choice_5": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": false
+    },
     "image": {
       "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ],
       "pluginOptions": {
         "i18n": {
           "localized": false
         }
-      }
+      },
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "category": {
       "type": "enumeration",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "required": true,
       "enum": [
         "general_mechanic",
         "powertrain",
@@ -83,38 +98,38 @@
         "engine_injection",
         "truck_air_braking_system",
         "trailer_braking_system"
-      ],
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "required": true
+      ]
     },
     "anwser": {
+      "type": "enumeration",
       "pluginOptions": {
         "i18n": {
           "localized": false
         }
       },
-      "type": "enumeration",
+      "required": true,
       "enum": [
         "choice_1",
         "choice_2",
         "choice_3",
         "choice_4",
         "choice_5"
-      ],
-      "required": true
+      ]
     },
-    "choice_5": {
+    "difficulty": {
+      "type": "enumeration",
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
-      "type": "string",
-      "required": false
+      "required": true,
+      "default": "easy",
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ]
     }
   }
 }
