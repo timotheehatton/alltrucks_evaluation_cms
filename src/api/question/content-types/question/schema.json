@@ -26,7 +26,7 @@
       "required": true
     },
     "choice_1": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -35,7 +35,7 @@
       "required": true
     },
     "choice_2": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -44,7 +44,7 @@
       "required": true
     },
     "choice_3": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -52,7 +52,7 @@
       }
     },
     "choice_4": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -60,7 +60,7 @@
       }
     },
     "choice_5": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "i18n": {
           "localized": true
