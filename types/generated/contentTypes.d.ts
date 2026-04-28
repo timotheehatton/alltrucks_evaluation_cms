@@ -720,6 +720,135 @@ export interface ApiActivateAccountActivateAccount
   };
 }
 
+export interface ApiAutoReplyEmailAutoReplyEmail
+  extends Struct.SingleTypeSchema {
+  collectionName: 'auto_reply_emails';
+  info: {
+    description: 'Auto-reply email content shown after a hotline request, including AI assistant disclaimer and feedback labels.';
+    displayName: 'AI - Auto-reply Email';
+    pluralName: 'auto-reply-emails';
+    singularName: 'auto-reply-email';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    ai_disclaimer: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    ai_section_title: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    feedback_high_tooltip: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    feedback_low_tooltip: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    feedback_question: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    feedback_subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    intro_body: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    intro_headline: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    issue_section_title: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::auto-reply-email.auto-reply-email'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    vehicle_axle_label: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    vehicle_brand_label: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    vehicle_mileage_label: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    vehicle_model_label: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    vehicle_section_title: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    vehicle_vin_label: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    vehicle_year_label: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+  };
+}
+
 export interface ApiCategoryCategory extends Struct.SingleTypeSchema {
   collectionName: 'categories';
   info: {
@@ -1160,33 +1289,33 @@ export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
           localized: false;
         };
       }>;
-    choice_1: Schema.Attribute.String &
+    choice_1: Schema.Attribute.Text &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    choice_2: Schema.Attribute.String &
+    choice_2: Schema.Attribute.Text &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    choice_3: Schema.Attribute.String &
+    choice_3: Schema.Attribute.Text &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    choice_4: Schema.Attribute.String &
+    choice_4: Schema.Attribute.Text &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    choice_5: Schema.Attribute.String &
+    choice_5: Schema.Attribute.Text &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -2107,6 +2236,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::account.account': ApiAccountAccount;
       'api::activate-account.activate-account': ApiActivateAccountActivateAccount;
+      'api::auto-reply-email.auto-reply-email': ApiAutoReplyEmailAutoReplyEmail;
       'api::category.category': ApiCategoryCategory;
       'api::email.email': ApiEmailEmail;
       'api::global-pdf.global-pdf': ApiGlobalPdfGlobalPdf;
