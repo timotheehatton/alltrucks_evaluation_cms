@@ -139,7 +139,10 @@ def parse_csv(csv_path):
         return list(reader)
 
 
-def build_payload(row, row_num, enabled_locales, target_locale):
+VALID_COUNTRIES = {'FR', 'ES', 'PL', 'DE', 'IT'}
+
+
+def build_payload(row, row_num, target_country):
     errors = []
 
     def get(col):
@@ -172,9 +175,8 @@ def build_payload(row, row_num, enabled_locales, target_locale):
     if not difficulty:
         errors.append(f'invalid difficulty {difficulty_raw!r} (expected 1, 2, or 3)')
 
-    locale = target_locale
-    if locale not in enabled_locales:
-        errors.append(f'locale {locale!r} not enabled in Strapi (enabled: {enabled_locales})')
+    if target_country not in VALID_COUNTRIES:
+        errors.append(f'invalid country {target_country!r} (expected one of {sorted(VALID_COUNTRIES)})')
 
     payload = {
         'question': question,
@@ -183,6 +185,7 @@ def build_payload(row, row_num, enabled_locales, target_locale):
         'category': category,
         'anwser': answer,  # schema typo preserved per CLAUDE.md
         'difficulty': difficulty,
+        'country': target_country,
     }
 
     for opt in ('choice_3', 'choice_4', 'choice_5'):
@@ -193,18 +196,18 @@ def build_payload(row, row_num, enabled_locales, target_locale):
     if answer not in payload and answer in {'choice_3', 'choice_4', 'choice_5'}:
         errors.append(f'answer points at {answer} but that column is empty')
 
-    return payload, locale, errors
+    return payload, errors
 
 
-def validate_rows(rows, enabled_locales, target_locale):
+def validate_rows(rows, target_country):
     validated = []
     all_errors = []
     for i, row in enumerate(rows, start=1):
-        payload, locale, errors = build_payload(row, i, enabled_locales, target_locale)
+        payload, errors = build_payload(row, i, target_country)
         if errors:
             all_errors.append((i, errors))
         else:
-            validated.append((i, payload, locale))
+            validated.append((i, payload))
     return validated, all_errors
 
 
@@ -221,7 +224,6 @@ def wipe(session, base_url, document_ids):
     for doc_id in document_ids:
         r = session.delete(
             f'{base_url}/api/questions/{doc_id}',
-            params={'locale': '*'},
             timeout=HTTP_TIMEOUT,
         )
         if r.status_code not in (200, 204):
@@ -238,11 +240,10 @@ def wipe(session, base_url, document_ids):
 def seed(session, base_url, validated):
     ok = 0
     failures = []
-    for row_num, payload, locale in validated:
+    for row_num, payload in validated:
         try:
             r = session.post(
                 f'{base_url}/api/questions',
-                params={'locale': locale},
                 json={'data': payload},
                 timeout=HTTP_TIMEOUT,
             )
@@ -258,9 +259,9 @@ def seed(session, base_url, validated):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Reseed Strapi questions from a German CSV.')
+    parser = argparse.ArgumentParser(description='Reseed Strapi questions from a CSV under one country.')
     parser.add_argument('--csv', type=Path, default=DEFAULT_CSV)
-    parser.add_argument('--locale', default='de', help='Locale to write all rows to. Defaults to de.')
+    parser.add_argument('--country', default='DE', help='Country to write all rows to (FR/ES/PL/DE/IT). Defaults to DE.')
     parser.add_argument('--rows', help='Comma-separated 1-based row numbers to seed (e.g. "1,2,3,5"). Implies --skip-wipe.')
     parser.add_argument('--skip-wipe', action='store_true', help='Skip backup + delete; only seed.')
     parser.add_argument('--dry-run', action='store_true', help='Backup + validate only; no DELETE/POST.')
@@ -298,12 +299,12 @@ def main():
             print(f'ERROR: {exc}', file=sys.stderr)
             return 2
 
-        if not documents:
-            print('WARNING: backup fetch returned 0 questions. Aborting before any writes.', file=sys.stderr)
-            return 2
-
-        backup_path = write_backup(documents)
-        print(f'Backup:   wrote {len(documents)} questions to {backup_path}')
+        # No prior questions: nothing to back up, skip wipe.
+        if documents:
+            backup_path = write_backup(documents)
+            print(f'Backup:   wrote {len(documents)} questions to {backup_path}')
+        else:
+            print('Backup:   nothing to back up (0 questions currently)')
 
         if args.backup_only:
             return 0
@@ -312,14 +313,9 @@ def main():
         print(f'ERROR: CSV not found at {args.csv}', file=sys.stderr)
         return 2
 
-    observed_locales = {d.get('locale') for d in documents if d.get('locale')}
-    if not observed_locales:
-        observed_locales = {args.locale}
-    enabled_locales, source = fetch_locales(session, base_url, observed_locales)
-    print(f'Locales:  {enabled_locales} ({source})')
-
+    country = args.country.upper()
     rows = parse_csv(args.csv)
-    validated, errors = validate_rows(rows, enabled_locales, args.locale)
+    validated, errors = validate_rows(rows, country)
 
     if errors:
         print(f'CSV validation failed for {len(errors)} of {len(rows)} rows. Aborting before any writes.', file=sys.stderr)
@@ -334,16 +330,15 @@ def main():
             print(f'ERROR: requested rows not found or invalid: {sorted(missing)}', file=sys.stderr)
             return 2
 
-    locales_used = sorted({locale for _, _, locale in validated})
-    if not skip_wipe:
-        print(f'About to: DELETE all {len(documents)} questions across all locales')
-    print(f'Then:     CREATE {len(validated)} new questions in locale={",".join(locales_used)}')
+    if not skip_wipe and documents:
+        print(f'About to: DELETE all {len(documents)} existing questions')
+    print(f'Then:     CREATE {len(validated)} new questions with country={country}')
 
     if args.dry_run:
         print('Dry-run complete. No writes performed.')
         return 0
 
-    if not skip_wipe:
+    if not skip_wipe and documents:
         if not args.yes and not confirm('Type DELETE to proceed: '):
             print('Aborted by operator.')
             return 1
@@ -362,7 +357,7 @@ def main():
             print(f'ERROR: {exc}', file=sys.stderr)
             return 3
 
-        print(f'Wiped {deleted} documents across all locales')
+        print(f'Wiped {deleted} documents')
 
     ok, failures = seed(session, base_url, validated)
     print(f'Seeded {ok} / {len(validated)} rows ({len(failures)} failed)')
